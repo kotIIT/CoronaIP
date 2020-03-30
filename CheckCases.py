@@ -20,8 +20,10 @@ def get_covid_info_for_county_ILLINOIS(county: str) -> dict:
 
                 # print(f"poop fuck: {item['confirmed_cases']}")
 
-    return None
+        raise Exception('Could not find County, asshole')
 
+
+# def get_covid_county_stats
 
 def get_county_from_zip(zip: str) -> dict:
     return zipcodes.matching(zip)
@@ -29,23 +31,36 @@ def get_county_from_zip(zip: str) -> dict:
 
 def get_county_from_current_ip() -> str:
     PublicIP = requests.get("https://ipinfo.io")
-
-    # print(PublicIP)
-    # pprint(PublicIP.json())
-
     zipcode_data = (zipcodes.matching(PublicIP.json()['postal']))
-
-    # pprint(zipcode_data)
-
     county = zipcode_data[0]['county'].upper().replace("COUNTY", '').strip()
-
     return county
 
 
+def get_shitty_from_current_ip() -> str:
+    PublicIP = requests.get("https://ipinfo.io")
+    city = PublicIP.json()['city']
+    return city
+
+
+def get_state_from_current_ip() -> str:
+    PublicIP = requests.get("https://ipinfo.io")
+    state = PublicIP.json()['region']
+    return state
+
+
+def get_loop_dose_stats():
+    possible_counties = [
+        get_state_from_current_ip(),
+        get_shitty_from_current_ip(),
+        get_county_from_current_ip(),
+       ]
+
+    for county in possible_counties:
+
+        response = get_covid_info_for_county_ILLINOIS(county)
+        print(response)
+
+
 if __name__ == '__main__':
-    # pprint(get_covid_info_for_county_ILLINOIS('lake'))
-
-    print(get_county_from_current_ip())
-
-    # zipcodes.matching  ()
-    # from geopy.geocoders import Nominatim
+    get_loop_dose_stats()
+    pass
