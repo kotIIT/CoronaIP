@@ -1,3 +1,6 @@
 # Project exclude paths
 /venv/
 /keys
+
+# pycharm crust
+.idea/
