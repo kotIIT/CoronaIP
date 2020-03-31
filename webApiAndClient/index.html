@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Corona Web API demo</title>
+    <script
+            src="https://code.jquery.com/jquery-3.3.1.js"
+            integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
+            crossorigin="anonymous"></script>
+
+    <script>
+        $(document).ready(function () {
+
+            const HOST = 'http://localhost:5000';
+
+            $('#coronabutton').on('click', function () {
+                document.body.appendChild($('<p>you have corona :)</p>')[0]);
+
+                console.log('corona button click');
+
+                $.get(HOST + '/api/health', function (data, textStatus, jqXHR) {  // success callback
+                    alert('status: ' + textStatus + ', data:' + data);
+                }).fail(function () {
+                    alert("start the web api at " + HOST + " bro! it is not running!");
+                });
+            });
+
+        });
+    </script>
+</head>
+<body>
+
+<button id="coronabutton">corona</button>
+
+</body>
+</html>
