@@ -25,6 +25,19 @@
                 alert("start the web api up!!! it is not running!");
             });
 
+            var countyCasesTable = new Tabulator("#countyCasesTable", {
+                height: "311px",
+                columns: [
+                    {title: "County", field: "County"},
+                    {title: "Confirmed cases", field: "confirmed_cases", sorter: "number"},
+                    {title: "Deaths", field: "deaths"},
+                    {title: "Latitude", field: "lat"},
+                    {title: "Longitude", field: "lon"},
+                    {title: "negative", field: "negative"},
+                    {title: "total tested", field: "total_tested"},
+                ],
+            });
+
 
             $('#countySearchButton').on('click', function () {
 
@@ -37,23 +50,13 @@
                     function (data) {
                         console.log(data);
 
-                        var table = new Tabulator("#example-table", {
-                            height: "311px",
-                            columns: [
-                                {title: "Name", field: "name"},
-                                {title: "Progress", field: "progress", sorter: "number"},
-                                {title: "Gender", field: "gender"},
-                                {title: "Rating", field: "rating"},
-                                {title: "Favourite Color", field: "col"},
-                                {title: "Date Of Birth", field: "dob", align: "center"},
-                            ],
-                        });
+                        countyCasesTable.replaceData([data])
 
-
-                    }).fail(function (data) {
-                    console.log(data.responseJSON);
-                    window.alert(data.responseJSON.message);
-                })
+                    })
+                    .fail(function (data) {
+                        console.log(data.responseJSON);
+                        window.alert(data.responseJSON.message);
+                    });
 
 
                 // document.body.appendChild($('<p>you have corona :)</p>')[0]);
@@ -77,7 +80,7 @@
 </p>
 
 
-<div id="example-table"></div>
+<div id="countyCasesTable"></div>
 
 
 </body>
