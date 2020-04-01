@@ -4,6 +4,8 @@ import zipcodes
 from pprint import pprint
 import ipinfo
 
+class CountyNotFoundException(Exception):
+    pass
 
 def get_covid_info_for_county_ILLINOIS(county: str) -> dict:
     with requests.get(
@@ -20,7 +22,7 @@ def get_covid_info_for_county_ILLINOIS(county: str) -> dict:
 
                 # print(f"poop fuck: {item['confirmed_cases']}")
 
-        raise Exception('Could not find County, asshole')
+        raise CountyNotFoundException('Could not find County, asshole')
 
 
 # def get_covid_county_stats
