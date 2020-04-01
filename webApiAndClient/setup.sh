@@ -2,7 +2,7 @@
 
 Install_Config(){
 	sudo apt install python3 npm -y
-	sudo pip3 install -U pipenv requests
+	python3.7 -m pip install -U pip pipenv
 	pipenv install
   Start_Config
 }
