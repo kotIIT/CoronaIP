@@ -4,3 +4,5 @@
 
 # pycharm crust
 .idea/
+
+package-lock.json
