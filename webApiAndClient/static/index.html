@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Corona Web API demo</title>
+    <script
+            src="https://code.jquery.com/jquery-3.3.1.js"
+            integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
+            crossorigin="anonymous"></script>
+
+    <link href="https://unpkg.com/tabulator-tables@4.3.0/dist/css/tabulator.min.css" rel="stylesheet">
+    <script type="text/javascript" src="https://unpkg.com/tabulator-tables@4.3.0/dist/js/tabulator.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+
+            // check api is up  and tell user if not up
+            $.get('/api/health', function (data, textStatus, jqXHR) {  // success callback
+                if (data.health === 'OK') {
+                    console.log('API is OK!');
+                } else {
+                    alert('api is not ok :(');
+                }
+            }).fail(function () {
+                alert("start the web api up!!! it is not running!");
+            });
+
+            var countyCasesTable = new Tabulator("#countyCasesTable", {
+                height: "311px",
+                columns: [
+                    {title: "County", field: "County"},
+                    {title: "Confirmed cases", field: "confirmed_cases", sorter: "number"},
+                    {title: "Deaths", field: "deaths"},
+                    {title: "Latitude", field: "lat"},
+                    {title: "Longitude", field: "lon"},
+                    {title: "negative", field: "negative"},
+                    {title: "total tested", field: "total_tested"},
+                ],
+            });
+
+
+            $('#countySearchButton').on('click', function () {
+
+                county = $('#coronainput').val();
+
+                $.get('/api/getCovidJSONByIllinoisCounty',
+                    {
+                        'county': county,
+                    },
+                    function (data) {
+                        console.log(data);
+
+                        countyCasesTable.addData([data])
+
+                    })
+                    .fail(function (data) {
+                        console.log(data.responseJSON);
+                        window.alert(data.responseJSON.message);
+                    });
+
+
+                // document.body.appendChild($('<p>you have corona :)</p>')[0]);
+
+                console.log('corona button click');
+
+            });
+
+        });
+    </script>
+</head>
+<body>
+
+<button id="countySearchButton">search</button>
+
+<p>
+    <label for="coronainput">county to search</label><input type="text" id="coronainput"/>
+</p>
+
+
+<div id="countyCasesTable"></div>
+
+
+</body>
+</html>

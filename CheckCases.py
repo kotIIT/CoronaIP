@@ -5,6 +5,8 @@ from pprint import pprint
 from datetime import date
 import ipinfo
 
+class CountyNotFoundException(Exception):
+    pass
 
 def get_covid_info_for_county_ILLINOIS(county: str) -> dict:
     curr_date = get_current_date()
@@ -23,7 +25,7 @@ def get_covid_info_for_county_ILLINOIS(county: str) -> dict:
 
                 # print(f"poop fuck: {item['confirmed_cases']}")
 
-        raise Exception('Could not find County, asshole')
+        raise CountyNotFoundException('Could not find County, asshole')
 
 
 # def get_covid_county_stats
